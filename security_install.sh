@@ -6,7 +6,8 @@ apt-get update && apt-get upgrade -y
 
 # Set password requirements
 echo "Setting password requirements..."
-sed -i 's/password.*requisite.*pam_pwquality.so.*/password requisite pam_pwquality.so minlen=8 minclass=0 lcredit=0 ucredit=0 dcredit=0 ocredit=0 dictpath=\/dev\/null/' /etc/pam.d/common-password
+sed -i 's/password.*requisite.*pam_pwquality.so.*/password requisite pam_pwquality.so minlen=8/' /etc/pam.d/common-password
+echo "dictcheck = 0" >> /etc/security/pwquality.conf
 
 # Create a new user
 echo "Creating a new user..."
