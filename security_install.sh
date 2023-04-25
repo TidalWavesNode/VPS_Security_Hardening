@@ -1,48 +1,65 @@
 #!/bin/bash
 
-# Update and upgrade the system
-sudo apt update && sudo apt upgrade -y
+# Update and upgrade Ubuntu
+echo "Updating and upgrading Ubuntu..."
+apt-get update && apt-get upgrade -y
 
-# Install necessary packages
-sudo apt install -y ufw fail2ban unattended-upgrades google-authenticator
-# Configure SSH
-SSH_PORT=2222 # Choose a custom port for SSH
-sudo sed -i "s/#Port 22/Port $SSH_PORT/" /etc/ssh/sshd_config
-sudo sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
-sudo sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+# Create a new user
+echo "Creating a new user..."
+read -p "Enter the new username: " new_user
+adduser $new_user
+usermod -aG sudo $new_user
 
-# Configure UFW (Uncomplicated Firewall)
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow $SSH_PORT/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw enable
+# Disable root SSH login
+echo "Disabling root SSH login..."
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+
+# Change SSH port
+read -p "Enter the new SSH port: " new_port
+sed -i "s/#Port 22/Port $new_port/" /etc/ssh/sshd_config
+
+# Install Google Authenticator
+echo "Installing Google Authenticator..."
+apt-get install -y libpam-google-authenticator
+
+# Configure Google Authenticator
+echo "Configuring Google Authenticator for the new user..."
+su - $new_user -c "google-authenticator"
+
+# Enable Google Authenticator
+echo "Enabling Google Authenticator in SSH PAM configuration..."
+echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
+sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/" /etc/ssh/sshd_config
+
+# Install UFW (Uncomplicated Firewall)
+echo "Installing UFW..."
+apt-get install -y ufw
+
+# Configure UFW
+echo "Configuring UFW..."
+ufw allow $new_port/ssh
+ufw enable
+
+# Install Fail2Ban
+echo "Installing Fail2Ban..."
+apt-get install -y fail2ban
 
 # Configure Fail2Ban
-sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-sudo sed -i "s/port     = ssh/port     = $SSH_PORT/" /etc/fail2ban/jail.local
+echo "Configuring Fail2Ban for SSH..."
+cat > /etc/fail2ban/jail.local <<EOF
+[sshd]
+enabled = true
+port = $new_port
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+bantime = 86400
+EOF
 
-sudo systemctl enable fail2ban
-sudo systemctl restart fail2ban
+# Restart services
+echo "Restarting SSH and Fail2Ban services..."
+systemctl restart ssh
+systemctl enable fail2ban
+systemctl start fail2ban
 
-# Configure unattended-upgrades
-sudo dpkg-reconfigure --priority=low unattended-upgrades
-
-# Set up Google Authenticator
-echo "Now setting up Google Authenticator."
-google-authenticator
-
-# Update PAM to use Google Authenticator
-sudo sh -c 'echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd'
-
-# Enable two-factor authentication in SSH
-sudo sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config
-sudo sed -i 's/UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
-
-# Restart SSH service
-sudo systemctl restart sshd
-
-echo "Script completed. SSH port changed to $SSH_PORT, Google Authenticator and other security measures are now in place."
-echo "Please ensure you have scanned the QR code and saved your emergency scratch codes before logging out."
-
+echo "All tasks completed successfully!"
