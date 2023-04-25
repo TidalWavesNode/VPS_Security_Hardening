@@ -4,11 +4,6 @@
 echo "Updating and upgrading Ubuntu..."
 apt-get update && apt-get upgrade -y
 
-# Set password requirements
-echo "Setting password requirements..."
-sed -i 's/password.*requisite.*pam_pwquality.so.*/password requisite pam_pwquality.so minlen=8/' /etc/pam.d/common-password
-echo "dictcheck = 0" >> /etc/security/pwquality.conf
-
 # Create a new user
 echo "Creating a new user..."
 read -p "Enter the new username: " new_user
