@@ -14,7 +14,7 @@ bash security_install.sh
 
 This script performs the following tasks:
 1. Updates and upgrades Ubuntu OS
-2. Creates a new user with sudo privileges (min password requirement to 8 characters)
+2. Creates a new user with sudo privileges 
 3. Disables root SSH login
 4. Changes the SSH port (user prompted to enter new ssh port)
 5. Installs and configures Google Authenticator for 2FA (answer y, scan the qr code and enter the code from the app, y, y, n, y for the prompts and save your emergency scratch codes)
