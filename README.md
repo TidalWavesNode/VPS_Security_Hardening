@@ -17,7 +17,7 @@ This script performs the following tasks:
 2. Creates a new user with sudo privileges (min password requirement to 8 characters)
 3. Disables root SSH login
 4. Changes the SSH port (user prompted to enter new ssh port)
-5. Installs and configures Google Authenticator for 2FA (answer y to all the propmts and make sure to scan the QR code and save recovery keys)
+5. Installs and configures Google Authenticator for 2FA (answer y to all the prompts and make sure to scan the QR code and save recovery keys)
 6. Installs and configures UFW (Uncomplicated Firewall)
 7. Installs and configures Fail2Ban to protect against brute-force attacks on the SSH service
 
