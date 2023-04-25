@@ -5,7 +5,6 @@ sudo apt update && sudo apt upgrade -y
 
 # Install necessary packages
 sudo apt install -y ufw fail2ban unattended-upgrades google-authenticator
-
 # Configure SSH
 SSH_PORT=2222 # Choose a custom port for SSH
 sudo sed -i "s/#Port 22/Port $SSH_PORT/" /etc/ssh/sshd_config
