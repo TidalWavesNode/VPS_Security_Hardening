@@ -15,7 +15,7 @@ This is a script that will update and upgrade your Ubuntu OS, secure the VPS wit
 Before running the script, make sure you have a backup of your system and can access the VPS through other means in case something goes wrong.
 
 # Vultr referal links
-````
 This link should give you $100 credit
+````
 https://www.vultr.com/?ref=9260952-8H
 ````
