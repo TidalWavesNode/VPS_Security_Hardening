@@ -1,5 +1,5 @@
 # VPS_Security_Hardening
-This script implements several Security related industry best practices to harden a new server
+This script implements several security related configurations meant to harden the security stance of a new server
 ***
 
 # Installation:
