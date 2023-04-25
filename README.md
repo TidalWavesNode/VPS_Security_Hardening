@@ -4,5 +4,5 @@ This script implements several Security related industry best practices to harde
 Installation:
 Log into the server using ssh (Putty for windows or terminal for Mac users) and run the following commands:
 
-wget -q https://raw.githubusercontent.com/TidalWavesNode/Wagerr-Setup-and-Update/master/SEC_hardening_install.sh
-bash wagerr_install.sh
+wget -q https://github.com/TidalWavesNode/VPS_Security_Hardening/blob/main/security_install.sh
+bash security_install.sh
