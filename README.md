@@ -12,9 +12,17 @@ bash security_install.sh
 ````
 ***
 
-This is a script that will update and upgrade your Ubuntu OS, secure the VPS with a custom SSH port, setup two-factor authentication using Google Authenticator, implement a firewall using UFW, Fail2Ban, and it disables remote root login.
+This script performs the following tasks:
 
-Before running the script, make sure you have a backup of your system and can access the VPS through other means in case something goes wrong.
+Updates and upgrades Ubuntu.
+Creates a new user with sudo privileges.
+Disables root SSH login.
+Changes the SSH port.
+Installs and configures Google Authenticator for 2FA.
+Installs and configures UFW (Uncomplicated Firewall).
+Installs and configures Fail2Ban to protect against brute-force attacks on the SSH service.
+
+Please note that this script is provided as a reference, and you should review and adapt it to your specific needs and requirements before using it in a production environment.
 
 # Vultr referal links
 This link should give you $100 credit
