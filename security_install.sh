@@ -30,7 +30,7 @@ su - $new_user -c "google-authenticator"
 echo "Enabling Google Authenticator in SSH PAM configuration..."
 echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
 sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/" /etc/ssh/sshd_config
-sed -i "s/@include common-auth /#@include common-auth/" /etc/ssh/sshd_config
+sed -i "s/@include common-auth/#@include common-auth/" /etc/ssh/sshd_config
 
 # Install UFW (Uncomplicated Firewall)
 echo "Installing UFW..."
