@@ -29,6 +29,7 @@ su - $new_user -c "google-authenticator"
 # Enable Google Authenticator
 echo "Enabling Google Authenticator in SSH PAM configuration..."
 echo "auth required pam_google_authenticator.so" >> /etc/pam.d/sshd
+echo "AuthenticationMethods publickey,password publickey,keyboard-interactive" >> /etc/ssh/sshd_config
 sed -i "s/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/" /etc/ssh/sshd_config
 sed -i "s/@include common-auth/#@include common-auth/" /etc/ssh/sshd_config
 
